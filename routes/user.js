@@ -15,10 +15,6 @@ Router.get("/", (req, res) => {
     res.render("./form/login");
 });
 
-Router.get("/signup", (req, res) => {
-    res.render("./form/signup");
-});
-
 Router.post('/signup', Upload.single('profileImage'), async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -73,7 +69,9 @@ Router.get("/chat", (req, res) => {
         email: user.email,
         profileImage: user.profileImage
     };
-    console.log(userData);
+    if(!userData){
+        res.redirect("/")
+    }
     if (!user) {
         res.redirect("/");
     } else {

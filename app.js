@@ -9,11 +9,10 @@ const cors = require("cors");
 require('colors');
 require('dotenv').config({ path: "./config/.env" });
 const port = process.env.PORT || 9000;
-
 require("./db/connection/connection");
 const server = http.createServer(app);
 const io = socketIO(server);
-
+app.use('/uploads', express.static('uploads'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
