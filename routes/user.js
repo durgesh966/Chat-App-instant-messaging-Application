@@ -33,8 +33,7 @@ Router.post('/signup', Upload.single('profileImage'), async (req, res) => {
                 profileImage
             };
         }
-
-        res.redirect("/chat");
+        res.redirect("/home");
     } catch (error) {
         console.log(error);
     }
@@ -52,7 +51,7 @@ Router.post('/', async (req, res) => {
                 email: user.email,
                 profileImage: user.profileImage
             };
-            res.redirect('/chat');
+            res.redirect('/home');
         } else {
             res.redirect('/', { error: 'invalid email or password' });
         }
@@ -62,7 +61,7 @@ Router.post('/', async (req, res) => {
     }
 });
 
-Router.get("/chat", (req, res) => {
+Router.get("/singleUserChat", (req, res) => {
     const user = req.session.user;
     const userData = {
         name: user.name,
@@ -75,8 +74,7 @@ Router.get("/chat", (req, res) => {
     if (!user) {
         res.redirect("/");
     } else {
-        res.render("./chat/chatUi", { userData });
+        res.render("./chat/singleUserChat", { userData });
     }
 });
-
 module.exports = Router;

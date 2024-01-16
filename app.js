@@ -27,6 +27,7 @@ app.set('view engine', '.hbs');
 
 app.use('/', require('./routes/user'));
 app.use('/', require('./routes/chat'));
+app.use('/', require('./routes/home'));
 
 app.listen(port, () => {
     console.log(`server listening on port ${port}`.bgGreen.black.bold);

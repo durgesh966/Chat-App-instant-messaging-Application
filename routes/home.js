@@ -1,8 +1,9 @@
 const express = require('express');
 const session = require('express-session');
 const Router = express.Router();
- 
-Router.get("/groupChat", (req, res) => {
+const User = require("../db/scheema/User");
+
+Router.get("/home", (req, res) => {
     const user = req.session.user;
     const userData = {
         name: user.name,
@@ -15,7 +16,7 @@ Router.get("/groupChat", (req, res) => {
     if (!user) {
         res.redirect("/home");
     } else {
-        res.render("./chat/groupChat", { userData });
+        res.render("./chat/home", { userData });
     }
 });
 
