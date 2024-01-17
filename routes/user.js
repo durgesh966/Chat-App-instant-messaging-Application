@@ -14,6 +14,9 @@ Router.use(session({
 Router.get("/", (req, res) => {
     res.render("./form/login");
 });
+Router.get("/signup", (req, res) => {
+    res.render("./form/signup");
+});
 
 Router.post('/signup', Upload.single('profileImage'), async (req, res) => {
     try {
