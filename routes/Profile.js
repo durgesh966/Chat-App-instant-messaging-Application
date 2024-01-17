@@ -1,9 +1,7 @@
 const express = require('express');
-const session = require('express-session');
 const Router = express.Router();
-const User = require("../db/scheema/User");
 
-Router.get("/home", (req, res) => {
+Router.get("/profile", (req, res) => {
     const user = req.session.user;
     if (!user) {
         res.redirect("/");
@@ -14,7 +12,8 @@ Router.get("/home", (req, res) => {
         email: user.email,
         profileImage: user.profileImage
     };
-    res.render("./chat/home", { userData });
+    res.render("./profile/profile", {userData});
 });
+
 
 module.exports = Router;

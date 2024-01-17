@@ -25,7 +25,8 @@ app.use(express.static(publicFolder));
 app.engine('.hbs', exphbs.engine({ extname: '.hbs', }));
 app.set('view engine', '.hbs');
 
-app.use('/', require('./routes/user'));
+app.use('/', require('./routes/loginLogout'));
+app.use('/', require('./routes/Profile'));
 app.use('/', require('./routes/chat'));
 app.use('/', require('./routes/home'));
 
