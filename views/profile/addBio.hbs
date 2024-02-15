@@ -1,0 +1,16 @@
+{{>sideNav userData=userData}}
+<div class="card text-center text-body-secondary">
+    <div class="card-header">
+        <img src="../../uploads/{{userData.profileImage}}" class="rounded-circle mb-2" alt="My Image" width="50"
+            height="50">
+        <h6 class="card-title">{{userData.name}}</h6>
+    </div>
+    <div class="container p-5">
+        <form method="post" action="/add-bio/{{userData.phone}}">
+            <div class="form-group">
+                <input type="text" class="form-control" name="bio" placeholder="write here....">
+            </div>
+            <button type="submit" class="btn btn-lg btn-success mb-3">Save</button>
+        </form>
+    </div>
+</div>

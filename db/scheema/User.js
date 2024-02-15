@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         requred: true,
     },
-    email:{
+    phone:{
         type:String,
         unique: true, 
         required:true
@@ -15,9 +15,11 @@ const userSchema = new mongoose.Schema({
         required:true,
     },
     profileImage:{
-        type:String,
-        required:true,
-    }  
+        
+    },
+    bio:{
+        type:String
+    } 
 });
 
 module.exports = mongoose.model('User', userSchema);

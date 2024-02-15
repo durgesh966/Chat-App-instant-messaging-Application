@@ -1,0 +1,14 @@
+{{>sideNav userData=userData}}
+
+<div class="card text-center text-body-secondary">
+    <div class="card-header">
+        <img src="../../uploads/{{userDb.profileImage}}" class="rounded-circle mb-2" alt="My Image" width="150"
+            height="150">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{userDb.name}}</h5>
+        <h6>{{userDb.bio}}</h6>
+        <p class="card-text">{{userDb.phone}}</p>
+        <p>{{userDb.about}}</p>
+    </div>
+</div>

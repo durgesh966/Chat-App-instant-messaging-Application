@@ -23,16 +23,16 @@ Router.get('/signup', (req, res) => {
 
 Router.post('/signup', multer.single('profileImage'), async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, phone, password } = req.body;
         const profileImage = req.file ? req.file.filename : null;
 
         const hashPassword = await bcrypt.hash(password, 10);
-        const result = await User.create({ name, email, hashPassword, profileImage });
+        const result = await User.create({ name, phone, hashPassword, profileImage });
 
         if (result) {
             req.session.user = {
                 name,
-                email,
+                phone,
                 profileImage
             };
             console.log('Data saved');
@@ -49,23 +49,25 @@ Router.post('/signup', multer.single('profileImage'), async (req, res) => {
 
 Router.post('/', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const { phone, password } = req.body;
+        const user = await User.findOne({ phone });
 
         if (user && await bcrypt.compare(password, user.hashPassword)) {
             req.session.user = {
                 name: user.name,
-                email: user.email,
+                phone: user.phone,
                 profileImage: user.profileImage
             };
+            // console.log(phone);
             res.redirect('/home');
         } else {
-            res.render('./form/login', { error: 'Invalid email or password' });
+            res.render('./form/login', { error: 'Invalid phone or password' });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal server error');F
+        res.status(500).send('Internal server error'); F
     }
 });
 
 module.exports = Router;
+ 

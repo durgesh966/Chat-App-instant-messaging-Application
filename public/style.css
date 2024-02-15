@@ -303,3 +303,15 @@ a:focus {
         margin-right: 250px;
     }
 }
+
+
+/* navbar */
+.profile-button {
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+    left: 5px;
+    width: 175px;
+    z-index: -5;
+}
+

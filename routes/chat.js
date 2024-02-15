@@ -6,7 +6,7 @@ Router.get("/chat", (req, res) => {
     const user = req.session.user;
     const userData = {
         name: user.name,
-        email: user.email,
+        phone: user.phone,
         profileImage: user.profileImage
     };
     if(!userData){
