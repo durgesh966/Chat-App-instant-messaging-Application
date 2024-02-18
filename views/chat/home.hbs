@@ -4,7 +4,7 @@
 </div>
 {{/if}}
 {{> sideNav userData=userData }}
-<input id="userId" type="text" value="{{main_userid}}" readonly>
+<input id="userId" type="hidden" value="{{main_userid}}" readonly>
 
 <section id="content-wrapper">
     <div class="container mt-3 mb-5">
@@ -27,7 +27,8 @@
                                 alt="{{this.name}}" width="40" height="40">
                             <div class="flex-grow-1 ml-3">
                                 {{this.name}}
-                                <div class="small statusIndicator" data-status="{{this.status}}"></div>
+                                <div class="small statusIndicator" id="{{this._id}}" data-status="{{this.status}}">
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -96,7 +97,9 @@
     </div>
 </section>
 
+<!-- JavaScript start here -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const userId = document.getElementById("userId").value;
@@ -112,14 +115,29 @@
             const status = indicator.dataset.status;
             if (status === "1") {
                 indicator.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
-                indicator.classList.remove('offline');
-                indicator.classList.add('online');
+                indicator.classList.remove('chat-offline');
+                indicator.classList.add('chat-online');
             } else {
                 indicator.innerHTML = '<span class="fas fa-circle chat-offline"></span> Offline';
-                indicator.classList.remove('online');
-                indicator.classList.add('offline');
+                indicator.classList.remove('chat-online');
+                indicator.classList.add('chat-offline');
             }
         });
-    });
 
+        // Update user online status
+        socket.on("userOnline", function (data) {
+            const userId = data.userId; // Access userId from data object
+            $("#" + userId).text('Online');
+            $("#" + userId).removeClass('chat-offline');
+            $("#" + userId).addClass("chat-online");
+        });
+
+        // Update user offline status
+        socket.on("userOffline", function (data) {
+            const userId = data.userId; // Access userId from data object
+            $("#" + userId).text('Offline');
+            $("#" + userId).removeClass('chat-online');
+            $("#" + userId).addClass("chat-offline");
+        });
+    });
 </script>

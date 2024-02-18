@@ -44,10 +44,15 @@ userSpace.on("connection", async function (socket) {
     const userId = socket.handshake.auth.token;
     await User.findByIdAndUpdate(userId, { $set: { status: '1' } });
 
+    // for show online user
+    socket.broadcast.emit("userOnline", { userId })
+
     socket.on("disconnect", async function () {
         console.log("User Disconnected");
         const userId = socket.handshake.auth.token;
         await User.findByIdAndUpdate(userId, { $set: { status: '0' } });
+        // for show online user
+        socket.broadcast.emit("userOffline", { userId })
     });
 });
 
