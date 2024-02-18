@@ -3,8 +3,11 @@ const session = require('express-session');
 const Router = express.Router();
 const User = require("../db/scheema/User");
 
-Router.get("/home", async (req, res) => {
+const auth = require("../middleware/auth");
+
+Router.get("/home", auth.isLogin, async (req, res) => {
     const user = req.session.user;
+    const successMessage = req.query.success;
     if (!user) {
         res.redirect("/");
         return;
@@ -15,7 +18,7 @@ Router.get("/home", async (req, res) => {
         phone: user.phone,
         profileImage: user.profileImage
     };
-    res.render("./chat/home", { userData, allUserData });
+    res.render("./chat/home", { userData, allUserData, successMessage  });
 });
 
 

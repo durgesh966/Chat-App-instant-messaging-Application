@@ -28,7 +28,17 @@
     <script src="script.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socker = io();
+        const socket = io();
+        const sendBtn = document.getElementById("sendBtn");
+        const inputMsg = document.getElementById("inputMsg");
+        sendBtn.addEventListener("click", (e) => {
+            const message = inputMsg.value;
+            socket.emit("user-message", message);
+            socket.on("message",(message)=>{
+                console.log(message);
+            });
+        });
+
     </script>
 </body>
 

@@ -16,6 +16,9 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 app.use(morgan('tiny'));
+// body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/uploads', express.static('uploads'));
 app.use(cors());
@@ -31,10 +34,15 @@ app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
 // Socket.IO setup (example)
+// Socket.IO setup
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    socket.on("user-message", (message) => {
+        io.emit("message", message);
+        console.log('A user connected' + message);
+    });
     // Handle socket events here
 });
+
 
 // Routes
 app.use('/', require('./routes/loginLogout'));

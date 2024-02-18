@@ -2,7 +2,9 @@ const express = require('express');
 const Router = express.Router();
 const User = require('../db/scheema/User');
 
-Router.get("/profile", async (req, res) => {
+const auth = require("../middleware/auth");
+
+Router.get("/profile", auth.isLogin, async (req, res) => {
     try {
         const user = req.session.user;
         if (!user) {
@@ -24,7 +26,7 @@ Router.get("/profile", async (req, res) => {
     }
 });
 
-Router.get("/edit-profile", async (req, res) => {
+Router.get("/edit-profile", auth.isLogin, async (req, res) => {
     try {
         const user = req.session.user;
         if (!user) {
@@ -44,7 +46,7 @@ Router.get("/edit-profile", async (req, res) => {
 
 
 
-Router.get("/add-bio", (req, res) => {
+Router.get("/add-bio", auth.isLogin, (req, res) => {
     const user = req.session.user;
     if (!user) {
         res.redirect("/");
@@ -58,7 +60,7 @@ Router.get("/add-bio", (req, res) => {
     res.render("./profile/addBio", { userData });
 });
 
-Router.post("/add-bio/:phone", async (req, res) => {
+Router.post("/add-bio/:phone", auth.isLogin, async (req, res) => {
     const phone = req.params.phone;
     const bio = req.body.bio;
     try {

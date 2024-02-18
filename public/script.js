@@ -6,4 +6,10 @@ $button.addEventListener('click', (e) => {
   $wrapper.classList.toggle('toggled');
 });
 
-
+// hide login sucess message after 2 sec
+setTimeout(() => {
+  const successMessage = document.getElementById('successMessage');
+  if (successMessage) {
+      successMessage.style.display = 'none';
+  }
+}, 2000);
