@@ -1,4 +1,3 @@
-"use strict";
 const express = require("express");
 const app = express();
 const exphbs = require('express-handlebars');
@@ -18,12 +17,13 @@ const io = socketIO(server);
 app.use(morgan('tiny'));
 // body-parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/uploads', express.static('uploads'));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use('/uploads', express.static('uploads'));
 
 // for using the public folder file
 const publicFolder = path.join(__dirname, 'public');
@@ -33,14 +33,22 @@ app.use(express.static(publicFolder));
 app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 
-// Socket.IO setup (example)
-// Socket.IO setup
-io.on('connection', (socket) => {
-    socket.on("user-message", (message) => {
-        io.emit("message", message);
-        console.log('A user connected' + message);
+
+// require user model
+const User = require("./db/scheema/User")
+// creat name space
+const userSpace = io.of("/user-namespace");
+
+userSpace.on("connection", async function (socket) {
+    console.log("User Connected");
+    const userId = socket.handshake.auth.token;
+    await User.findByIdAndUpdate(userId, { $set: { status: '1' } });
+
+    socket.on("disconnect", async function () {
+        console.log("User Disconnected");
+        const userId = socket.handshake.auth.token;
+        await User.findByIdAndUpdate(userId, { $set: { status: '0' } });
     });
-    // Handle socket events here
 });
 
 

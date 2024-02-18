@@ -315,3 +315,9 @@ a:focus {
     z-index: -5;
 }
 
+.online{
+    color: green;
+}
+.ofline{
+    color: red;
+}

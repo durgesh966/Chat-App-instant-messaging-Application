@@ -3,29 +3,31 @@
     {{successMessage}}
 </div>
 {{/if}}
-{{>sideNav userData=userData}}
+{{> sideNav userData=userData }}
+<input id="userId" type="text" value="{{main_userid}}" readonly>
+
 <section id="content-wrapper">
     <div class="container mt-3 mb-5">
         <div class="card">
             <div class="row g-0">
-                {{!-- user chat --}}
+                <!-- user chat -->
                 <div class="col-12 col-lg-5 col-xl-3 border-right">
                     <div class="px-4 d-none d-md-block">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                {{!-- <input type="text" class="form-control my-3" placeholder="Search..."> --}}
                                 <h6 class="text-center m-2">User Chats</h6>
                             </div>
                         </div>
                     </div>
+
                     {{#each allUserData}}
                     <a href="#" class="list-group-item list-group-item-action border-1 mb-1">
                         <div class="d-flex align-items-center">
                             <img src="../../uploads/{{this.profileImage}}" class="rounded-circle m-4"
-                                alt="Jennifer Chang" width="40" height="40">
+                                alt="{{this.name}}" width="40" height="40">
                             <div class="flex-grow-1 ml-3">
                                 {{this.name}}
-                                <div class="small"><span class="fas fa-circle chat-offline"></span> Offline</div>
+                                <div class="small statusIndicator" data-status="{{this.status}}"></div>
                             </div>
                         </div>
                     </a>
@@ -35,12 +37,11 @@
                 </div>
 
 
-                {{!-- group chat --}}
+                <!-- group chat -->
                 <div class="col-12 col-lg-5 col-xl-3 border-right">
                     <div class="px-4 d-none d-md-block">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                {{!-- <input type="text" class="form-control my-3" placeholder="Search..."> --}}
                                 <h6 class="text-center m-2">Group Chats</h6>
                             </div>
                         </div>
@@ -86,7 +87,7 @@
                         <label for="groupInput d-flex align-items-cente">Add Group:</label>
                         <input type="text" class="form-control" aria-label="Default"
                             aria-describedby="inputGroup-sizing-default" id="groupInput" placeholder="Group Name">
-                        <button class="btn btn-success mt-3" onclick="addGroup()">Cretae Group</button>
+                        <button class="btn btn-success mt-3" onclick="addGroup()">Create Group</button>
                     </div>
                     <hr class="d-block d-lg-none mt-1 mb-0">
                 </div>
@@ -94,3 +95,31 @@
         </div>
     </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const userId = document.getElementById("userId").value;
+        const socket = io("/user-namespace", {
+            auth: {
+                token: userId
+            }
+        });
+
+        // Status Indicator handling
+        const statusIndicators = document.querySelectorAll(".statusIndicator");
+        statusIndicators.forEach(indicator => {
+            const status = indicator.dataset.status;
+            if (status === "1") {
+                indicator.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
+                indicator.classList.remove('offline');
+                indicator.classList.add('online');
+            } else {
+                indicator.innerHTML = '<span class="fas fa-circle chat-offline"></span> Offline';
+                indicator.classList.remove('online');
+                indicator.classList.add('offline');
+            }
+        });
+    });
+
+</script>

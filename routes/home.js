@@ -13,12 +13,14 @@ Router.get("/home", auth.isLogin, async (req, res) => {
         return;
     }
     const allUserData = await User.find({ phone: { $ne: user.phone } }).lean();
+    const main_user = await User.findOne({ phone: user.phone });
+    const main_userid = main_user._id;
     const userData = {
         name: user.name,
         phone: user.phone,
         profileImage: user.profileImage
     };
-    res.render("./chat/home", { userData, allUserData, successMessage  });
+    res.render("./chat/home", { userData, allUserData, main_userid, successMessage  });
 });
 
 
