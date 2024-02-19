@@ -7,11 +7,11 @@
 <input id="userId" type="hidden" value="{{main_userid}}" readonly>
 
 <section id="content-wrapper">
-    <div class="container mt-3 mb-5">
+    <div class="container">
         <div class="card">
             <div class="row g-0">
                 <!-- user chat -->
-                <div class="col-12 col-lg-5 col-xl-3 border-right">
+                <div class="col-12 col-lg-5 col-xl-4 border-right" id="userChatContainer">
                     <div class="px-4 d-none d-md-block">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
@@ -21,7 +21,7 @@
                     </div>
 
                     {{#each allUserData}}
-                    <a href="#" class="list-group-item list-group-item-action border-1 mb-1">
+                    <a href="#" class="list-group-item list-group-item-action border-1 mb-1" id="user_card">
                         <div class="d-flex align-items-center">
                             <img src="../../uploads/{{this.profileImage}}" class="rounded-circle m-4"
                                 alt="{{this.name}}" width="40" height="40">
@@ -33,76 +33,99 @@
                         </div>
                     </a>
                     {{/each}}
-
-                    <hr class="d-block d-lg-none mt-1 mb-0">
                 </div>
 
-
-                <!-- group chat -->
-                <div class="col-12 col-lg-5 col-xl-3 border-right">
-                    <div class="px-4 d-none d-md-block">
+                <div class="col-12 col-lg-5 col-xl-8">
+                    <div class="px-4 d-none d-md-block" id="click_user">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <h6 class="text-center m-2">Group Chats</h6>
+                                <h6 class="text-center m-2">Click user to start chat</h6>
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="list-group-item list-group-item-action border-1">
-                        <div class="d-flex align-items-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle m-4"
-                                alt="Jennifer Chang" width="40" height="40">
-                            <div class="flex-grow-1 ml-3">
-                                CSE 7th Sem
-                                <div class="small"><span class="fas fa-circle chat-offline"></span> Offline</div>
+
+                    {{!-- chat start --}}
+                    <div class="card" style="display: none;" id="chat_container">
+                        <div class="col-12 col-lg-12 col-xl-12">
+                            <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                                <div class="d-flex align-items-center py-1">
+                                    <div class="position-relative">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                            class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                    </div>
+                                    <div class="flex-grow-1 pl-3">
+                                        <strong>Sharon Lessman</strong>
+                                        <div class="text-muted small"><em>Typing...</em></div>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="position-relative">
+                                <div class="chat-messages p-4" id="chatContainer">
+                                    {{!-- left side chat --}}
+                                    <div class="chat-message-left pb-4">
+                                        <div>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                            <div class="text-muted small text-nowrap mt-2">2:33 am</div>
+                                        </div>
+                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                            <div class="font-weight-bold mb-1">You</div>
+                                            Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te
+                                            vix.
+                                        </div>
+                                    </div>
+                                    {{!-- /end --}}
+                                    <div class="chat-message-right pb-4">
+                                        <div>
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                                            <div class="text-muted small text-nowrap mt-2">2:33 am</div>
+                                        </div>
+                                        <div class="flex-shrink-1 bg-light rounded py-2 px-3 mr-3">
+                                            <div class="font-weight-bold mb-1">You</div>
+                                            Lorem ipsum dolor sit amet, vis erat denique in, dicunt prodesset te
+                                            vix.
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <form id="messageForm" action="">
+                                <div class="flex-grow-0 py-3 px-4 border-top">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputMsg" name="message"
+                                            placeholder="Type your message">
+                                        <button type="submit" class="btn btn-primary" value="send message"
+                                            id="sendBtn">Send</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
                         </div>
-                    </a>
-                    <hr class="d-block d-lg-none mt-1 mb-0">
+                    </div>
                 </div>
+                {{!-- end chat --}}
 
-                <div class="col-12 col-lg-5 col-xl-6 border-right mt-5">
-                    <div class="px-4 d-none d-md-block">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <h6 class="text-center m-2">Add New User</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="list-group-item list-group-item-action border-1">
-                        <label for="userInput">Add User:</label>
-                        <input type="text" class="form-control" aria-label="Default"
-                            aria-describedby="inputGroup-sizing-default" id="userInput" placeholder="Username">
-                        <button class="btn btn-success" onclick="addUser()">Add User</button>
-                    </div>
-
-                    <div class="px-4 d-none d-md-block mt-5">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-grow-1">
-                                <h6 class="text-center m-2">Create Group</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="list-group-item list-group-item-action border-1">
-                        <label for="groupInput d-flex align-items-cente">Add Group:</label>
-                        <input type="text" class="form-control" aria-label="Default"
-                            aria-describedby="inputGroup-sizing-default" id="groupInput" placeholder="Group Name">
-                        <button class="btn btn-success mt-3" onclick="addGroup()">Create Group</button>
-                    </div>
-                    <hr class="d-block d-lg-none mt-1 mb-0">
-                </div>
+                <hr class="d-block d-lg-none mt-1 mb-0">
             </div>
         </div>
+    </div>
     </div>
 </section>
 
 <!-- JavaScript start here -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const userId = document.getElementById("userId").value;
+        const reciver_id = 
         const socket = io("/user-namespace", {
             auth: {
                 token: userId
@@ -111,22 +134,22 @@
 
         // Status Indicator handling
         const statusIndicators = document.querySelectorAll(".statusIndicator");
-        statusIndicators.forEach(indicator => {
-            const status = indicator.dataset.status;
+        statusIndicators.forEach(status_on_off => {
+            const status = status_on_off.dataset.status;
             if (status === "1") {
-                indicator.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
-                indicator.classList.remove('chat-offline');
-                indicator.classList.add('chat-online');
+                status_on_off.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
+                status_on_off.classList.remove('chat-offline');
+                status_on_off.classList.add('chat-online');
             } else {
-                indicator.innerHTML = '<span class="fas fa-circle chat-offline"></span> Offline';
-                indicator.classList.remove('chat-online');
-                indicator.classList.add('chat-offline');
+                status_on_off.innerHTML = '<span class="fas fa-circle chat-offline"></span> Offline';
+                status_on_off.classList.remove('chat-online');
+                status_on_off.classList.add('chat-offline');
             }
         });
 
         // Update user online status
         socket.on("userOnline", function (data) {
-            const userId = data.userId; // Access userId from data object
+            const userId = data.userId;
             $("#" + userId).text('Online');
             $("#" + userId).removeClass('chat-offline');
             $("#" + userId).addClass("chat-online");
@@ -134,10 +157,18 @@
 
         // Update user offline status
         socket.on("userOffline", function (data) {
-            const userId = data.userId; // Access userId from data object
+            const userId = data.userId;
             $("#" + userId).text('Offline');
             $("#" + userId).removeClass('chat-online');
             $("#" + userId).addClass("chat-offline");
+        });
+    });
+
+    // show and hide chat container
+    $(document).ready(function () {
+        $('#user_card').click(function () {
+            $("#click_user").hide();
+            $("#chat_container").show();
         });
     });
 </script>

@@ -321,3 +321,12 @@ a:focus {
 .ofline{
     color: red;
 }
+
+#userChatContainer {
+    height: 85vh;
+    overflow-y: auto; 
+}
+#chatContainer {
+    height: 60vh;
+    overflow-y: auto; 
+}
